@@ -173,14 +173,28 @@ t2 <- Sys.time()
 t2-t1
 
 
+# Avoid for loops
+
+d <- as.data.frame(cbind(runif(10000), runif(10000)))
+head(d)
+
+system.time(for (loop in 1:dim(d)[1])
+  {
+  d$mean2[loop] <- mean(c(d[loop, 1], d[loop, 2]))
+})
+
+system.time(d$mean1 <- apply(d, 1, mean))
 
 
+df<- 1:10
+lapply(2:3, function(i) df <- df*i)
 
 
+install.packages("reshape2")
+data(tips, package = "reshape2")
+head(tips)
 
-
-
-
+tips$tipgroup <- ifelse(tips$tip < 3, "lowtip", "hightip" )
 
 
 
