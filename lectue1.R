@@ -130,6 +130,56 @@ myfibrec(-3)
 attempt3 <- suppressWarnings(myfibrec(-3))
 attempt3
 
+#Progress and Timing
+
+# textual progress bars 
+
+Sys.sleep(10)  # waits 
+
+sleep_test <- function(n){
+  result <- 0
+  for (i in 1:n){
+    result <- result + 1
+    Sys.sleep(0.5)
+  }
+  return(result)
+}
+
+sleep_test(4)
+
+prog_test <- function(n){
+  result <- 0
+  progbar <- txtProgressBar(min = 0, max = n, style = 1, char = "=")
+  for (i in 1:n){
+    result <- result + 1
+    Sys.sleep(0.5)
+    setTxtProgressBar(progbar, value = i)
+  }
+  close(progbar)
+  return(result)
+}
+
+prog_test(9)
+
+prog_test(8)
+
+
+# Measuring completion time
+Sys.time()
+
+t1 <- Sys.time()
+Sys.sleep(3)
+t2 <- Sys.time()
+t2-t1
+
+
+
+
+
+
+
+
+
 
 
 
