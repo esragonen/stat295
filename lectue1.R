@@ -197,7 +197,96 @@ head(tips)
 tips$tipgroup <- ifelse(tips$tip < 3, "lowtip", "hightip" )
 
 
+timecal <- function(n){ 
+  a <- numeric(n)
+  for (i in 1:n){
+    a[i] <- 2*pi*sin(i)
+    
+  }
+}
+system.time(timecal(10000))
 
+timecal2 <- function(n){
+  a <- numeric(n)
+  for (i in 1:n){
+    a[i] <- sin(i)
+  } 
+  2* pi * a
+}
+
+system.time(timecal2(10000))
+
+
+# Piping in R
+
+# RHS | LHS 
+# input | function
+
+library(tidyverse)
+
+# %>% or |> piping sign there is some difference between them
+
+data(tips, package = "reshape2")
+head(tips)
+
+tips %>%
+  subset(total_bill > 19) %>%
+  aggregate(. ~sex, ., mean)
+
+tips |>
+  subset(total_bill > 19) |>
+  {function(x) aggregate(. ~sex, data=x, FUN = mean)}()
+
+
+tips %>%
+  subset(total_bill > 19) %>%
+  aggregate(. ~day, ., max)
+
+
+a <- rnorm(10)
+a <- abs(a)
+a <- round(a, 1)
+
+
+round(log(abs(a)), 1)
+
+a %>% abs() %>%
+  log() %>%
+  round(1)
+
+
+a %<>% abs() %>%
+  log() %>%
+  round(1)  # a'yı kaydeder
+
+
+a <- rnorm(15)
+a
+round(a,2)
+
+a %>% round(2)
+
+
+assign("a", pi)
+a
+
+#"a" %>% assign(20) not working
+
+env <- environment()
+
+"a" %>% assign(20, envir = env)
+a
+
+rnorm(100) %>%
+  matrix(ncol=2) %>%
+  plot() %>%
+  str()
+
+
+rnorm(100) %>%
+  matrix(ncol=2) %T>%
+  plot() %>%
+  str()
 
 
 
